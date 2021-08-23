@@ -9,14 +9,22 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
     [SerializeField, Range(1, 10)] private int speed;
-    [SerializeField] private GameObject gameOver, controllerExplain, spawnManager, getReady;
+    [SerializeField] private GameObject gameOver, controllerExplain, spawnManager, getReady, fireworks;
     [SerializeField] private Button restartButton;
     [SerializeField] private TMP_Text pointsText;
-    [SerializeField] private AudioClip flyClip, coinClip, dieClip;
+    [SerializeField] private AudioClip flyClip, coinClip, dieClip, fireworksClip;
     [SerializeField] private AudioSource audioSource;
 
+    private gameState GameState;
+    private enum gameState
+    {
+        loaded,
+        playing,
+        paused
+    }
+
     private int points, maxScore;
-    private bool startEnable, paused = false;
+    private bool startEnable, maxScorePassed, paused = false;
 
     private Animator _anim;
     
@@ -31,6 +39,9 @@ public class PlayerController : MonoBehaviour
 
         points = 0;
         startEnable = false;
+
+        maxScorePassed = false;
+        
     }
 
     // Update is called once per frame
@@ -38,15 +49,32 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer();
 
-        pointsText.text = "" + points;
+        if (GameState == gameState.loaded)
+        {
+            maxScore = PlayerPrefs.GetInt("MAX_SCORE");
+            pointsText.text = "" + maxScore;
+        } else if(GameState == gameState.playing)
+        {
+            pointsText.text = "" + points;
+        }
+        
 
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && !startEnable)
         {
             startEnable = true;
+            GameState = gameState.playing;
             controllerExplain.SetActive(false);
             getReady.SetActive(false);
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
             spawnManager.SetActive(true);
+            fireworks.SetActive(false);
+        }
+
+        if ((points > maxScore) && !maxScorePassed)
+        {
+            maxScorePassed = true;
+            fireworks.SetActive(true);
+            audioSource.PlayOneShot(fireworksClip);
         }
     }
 
@@ -73,6 +101,12 @@ public class PlayerController : MonoBehaviour
             gameOver.SetActive(true);
             restartButton.gameObject.SetActive(true);
             audioSource.PlayOneShot(dieClip);
+
+            if(points > maxScore)
+            {
+                PlayerPrefs.SetInt("MAX_SCORE", points);
+            }
+
         }
     }
 
@@ -96,6 +130,8 @@ public class PlayerController : MonoBehaviour
 
     public void PauseGame()
     {
+        GameState = gameState.paused;
+
         if (!paused)
         {
             Time.timeScale = 0;
@@ -104,6 +140,8 @@ public class PlayerController : MonoBehaviour
         {
             Time.timeScale = 1;
             paused = !paused;
+
+            GameState = gameState.playing;
         }
         
     }

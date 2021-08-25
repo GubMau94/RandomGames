@@ -5,13 +5,13 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject backgroundPrefab, backgroundBounds, player, highestPlatformAtStart;
-    [SerializeField] private GameObject[] plaformPrefab;
+    [SerializeField] private GameObject backgroundPrefab, backgroundBounds, player, highestPlatformAtStart, highestMonsterAtStart;
+    [SerializeField] private GameObject[] platformPrefab, monstersPrefab;
     [SerializeField] private float maxSpawnPlatformPosX, minSpawnPlatformPosX;
     [SerializeField, Range(0.1f, 3.5f)] private float minSpaceBetweenPlatformsY, maxSpaceBetweenPlatformsY;
     [SerializeField] private TMP_Text score; 
 
-    private float backgroundDimensionX, backgroundDimensionY, highestPlatformY;
+    private float backgroundDimensionX, backgroundDimensionY, highestPlatformY, highestMonsterY;
     private int counterPlayerPos = 1;
     private int counterBackgroundPos = 4;
     public static int points = 0;
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         backgroundDimensionY = (backgroundBounds.GetComponent<BoxCollider2D>().bounds.extents.y);
 
         highestPlatformY = highestPlatformAtStart.transform.position.y;
+        highestMonsterY = highestMonsterAtStart.transform.position.y;
 
         score.text = "" + 0;
     }
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
         BackgroundSpawner(backgroundDimensionY);
         BackgroundLimitsX(backgroundDimensionX);
         PlatformSpawner(highestPlatformY, minSpaceBetweenPlatformsY, maxSpaceBetweenPlatformsY);
+        MonsterSpawner(monstersPrefab);
 
         score.text = "" + points;
     }
@@ -73,17 +75,40 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Istanzia una piattaforma quando il player ha una distanza inferiore a 9[UM] da quella più alta
+    /// </summary>
+    /// <param name="platHighestY"></param>
+    /// <param name="minSpaceY"></param>
+    /// <param name="maxSpaceY"></param>
     private void PlatformSpawner(float platHighestY, float minSpaceY, float maxSpaceY)
     {
         if(platHighestY - player.transform.position.y <= 9)
         {
-            int index = Random.Range(0, plaformPrefab.Length);
+            int index = Random.Range(0, platformPrefab.Length);
             Vector2 spawnPos = new Vector2(Random.Range(minSpawnPlatformPosX, maxSpawnPlatformPosX), Random.Range((platHighestY + minSpaceY), platHighestY + maxSpaceY));
 
-            Instantiate(plaformPrefab[index], spawnPos, plaformPrefab[index].transform.rotation);
+            Instantiate(platformPrefab[index], spawnPos, platformPrefab[index].transform.rotation);
 
             highestPlatformY = spawnPos.y;
         }
+    }
+
+    /// <summary>
+    /// Instanzia un mostro ogni volta che il player si avvicina a quello attuale a meno di 4[UM]
+    /// </summary>
+    /// <param name="monsterPrefab"></param>
+    private void MonsterSpawner(GameObject[] monsterPrefab)
+    {
+        if((highestMonsterY - player.transform.position.y) <= 4.0f)
+        {
+            int index = Random.Range(0, monsterPrefab.Length);
+            Vector2 spawnPos = new Vector2(Random.Range(minSpawnPlatformPosX, Mathf.Abs(minSpawnPlatformPosX)), (highestMonsterY + Random.Range(12.5f, 25.5f)));
+            Instantiate(monsterPrefab[index], spawnPos, monsterPrefab[index].transform.rotation);
+
+            highestMonsterY = spawnPos.y;
+        }
+        
     }
 
 } //class

@@ -7,7 +7,6 @@ public class PlatformManagement : MonoBehaviour
     private GameObject player;
     private BoxCollider2D _boxCollider;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -19,13 +18,13 @@ public class PlatformManagement : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        if(player.transform.position.y < transform.position.y + 0.5f)
+        if((player.transform.position.y < (transform.position.y + 0.6f)))
         {
-            _boxCollider.enabled = false;
+            _boxCollider.isTrigger = true;
         } else
         {
-            _boxCollider.enabled = true;
-        }        
+            _boxCollider.isTrigger = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,4 +34,6 @@ public class PlatformManagement : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+
 }

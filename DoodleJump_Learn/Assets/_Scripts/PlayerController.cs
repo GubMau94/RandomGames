@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField, Range(0.1f, 500f)] private float jumpForce;
     [SerializeField, Range(0.1f, 500f)] private float movementSpeed;
+    [SerializeField] private GameObject projectilePrefab, mouth, projectileSpawnPos;
 
 
     // Start is called before the first frame update
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerMovement();
         ScoreManager();
+        PlayerShot();
     }
 
     /// <summary>
@@ -65,6 +67,11 @@ public class PlayerController : MonoBehaviour
             
             _rigidbody.velocity = new Vector2(0, jumpForce);
         }
+
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -75,6 +82,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gestisce il sistema di puntuazione moltiplicando la posizione più alta raggiunta per un fattore pari a 10
+    /// </summary>
     private void ScoreManager()
     {
         if(transform.position.y > highestPosY)
@@ -85,5 +95,18 @@ public class PlayerController : MonoBehaviour
         GameManager.points = Mathf.RoundToInt(highestPosY * 10f);
     }
     
+    /// <summary>
+    /// Spara un proiettile ogni volta che si preme space 
+    /// </summary>
+    private void PlayerShot()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _anim.Play("IdleFire");
+            //mouth.SetActive(true);
+            Instantiate(projectilePrefab, projectileSpawnPos.transform.position, projectilePrefab.transform.rotation);
+        }
+    }
+
 
 } //class

@@ -18,7 +18,7 @@ public class PlatformManagement : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        if((player.transform.position.y < (transform.position.y + 0.6f)))
+        if(player.transform.position.y < (transform.position.y + 0.6f))
         {
             _boxCollider.isTrigger = true;
         } else

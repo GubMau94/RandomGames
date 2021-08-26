@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalMovement, highestPosY;
     private bool turnLeft = false;
+    public static int maxScore;
 
     [SerializeField, Range(0.1f, 500f)] private float jumpForce;
     [SerializeField, Range(0.1f, 500f)] private float movementSpeed;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
         PlayerMovement();
         ScoreManager();
         PlayerShot();
+        HighScore();
     }
 
     /// <summary>
@@ -70,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Monster"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(2);
         }
     }
 
@@ -78,8 +80,19 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("KillZone"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(2);
+            
         }
+    }
+
+    private void HighScore()
+    {
+        if(GameManager.points > maxScore)
+        {
+            PlayerPrefs.SetInt("MAX_SCORE", GameManager.points);            
+        }
+
+        maxScore = PlayerPrefs.GetInt("MAX_SCORE");
     }
 
     /// <summary>

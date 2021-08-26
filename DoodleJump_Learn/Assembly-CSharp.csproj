@@ -63,8 +63,11 @@
     <Compile Include="Assets\_Scripts\MoveUp.cs" />
     <Compile Include="Assets\_Scripts\PlatformManagement.cs" />
     <Compile Include="Assets\_Scripts\DestroyProjectile.cs" />
-    <Compile Include="Assets\_Scripts\GameManager.cs" />
     <Compile Include="Assets\_Scripts\MonsterController.cs" />
+    <Compile Include="Assets\_Scripts\GameManager.cs" />
+    <Compile Include="Assets\_Scripts\GameOverController.cs" />
+    <Compile Include="Assets\_Scripts\Oscillator.cs" />
+    <Compile Include="Assets\_Scripts\MainMenuController.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -6,7 +6,7 @@ public class Oscillator : MonoBehaviour
 {
     private float timeCounter = 0;
 
-    public float speed, width, height, offset;
+    [SerializeField] private float speed, width, height, offsetX, offsetY;
 
     // Start is called before the first frame update
     void Start()
@@ -21,8 +21,7 @@ public class Oscillator : MonoBehaviour
 
         float x = Mathf.Cos(timeCounter) * width;
         float y = Mathf.Sin(timeCounter) * height;
-        float z = 0;
 
-        transform.position = new Vector2(x, y + offset);
+        transform.position = new Vector2(x, y + offsetY);
     }
 }

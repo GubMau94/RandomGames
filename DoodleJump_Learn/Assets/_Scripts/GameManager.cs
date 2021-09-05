@@ -6,24 +6,28 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject backgroundPrefab, backgroundBounds, player, highestPlatformAtStart, highestMonsterAtStart;
-    [SerializeField] private GameObject[] platformPrefab, monstersPrefab;
+    [SerializeField] private GameObject[] platformPrefab, monstersPrefab, powerPrefabs;
     [SerializeField] private float maxSpawnPlatformPosX, minSpawnPlatformPosX;
     [SerializeField, Range(0.1f, 3.5f)] private float minSpaceBetweenPlatformsY, maxSpaceBetweenPlatformsY;
     [SerializeField] private TMP_Text score; 
 
-    private float backgroundDimensionX, backgroundDimensionY, highestPlatformY, highestMonsterY;
+    private float backgroundDimensionX, backgroundDimensionY, highestPlatformY, highestMonsterY, platformDimensionY, powerDimensionY;
     private int counterPlayerPos = 1;
     private int counterBackgroundPos = 4;
     public static int points = 0;
+    private int counter = 0;
 
     private Vector2 backgroundPos;
+    private Vector2 spawnPos;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        backgroundDimensionX = (backgroundBounds.GetComponent<BoxCollider2D>().bounds.extents.x);
-        backgroundDimensionY = (backgroundBounds.GetComponent<BoxCollider2D>().bounds.extents.y);
+        backgroundDimensionX = backgroundBounds.GetComponent<BoxCollider2D>().bounds.extents.x;
+        backgroundDimensionY = backgroundBounds.GetComponent<BoxCollider2D>().bounds.extents.y;
+
+        platformDimensionY = highestPlatformAtStart.GetComponent<BoxCollider2D>().bounds.extents.y;
 
         highestPlatformY = highestPlatformAtStart.transform.position.y;
         highestMonsterY = highestMonsterAtStart.transform.position.y;
@@ -86,9 +90,17 @@ public class GameManager : MonoBehaviour
         if(platHighestY - player.transform.position.y <= 9)
         {
             int index = Random.Range(0, platformPrefab.Length);
-            Vector2 spawnPos = new Vector2(Random.Range(minSpawnPlatformPosX, maxSpawnPlatformPosX), Random.Range((platHighestY + minSpaceY), platHighestY + maxSpaceY));
+            spawnPos = new Vector2(Random.Range(minSpawnPlatformPosX, maxSpawnPlatformPosX), Random.Range((platHighestY + minSpaceY), platHighestY + maxSpaceY));
 
             Instantiate(platformPrefab[index], spawnPos, platformPrefab[index].transform.rotation);
+
+            counter++;
+
+            if (index != 0 && counter > 10)
+            {
+                PowerSpawner(platformDimensionY);
+                counter = 0;
+            }
 
             highestPlatformY = spawnPos.y;
         }
@@ -99,16 +111,27 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="monsterPrefab"></param>
     private void MonsterSpawner(GameObject[] monsterPrefab)
-    {
+    {        
         if((highestMonsterY - player.transform.position.y) <= 4.0f)
         {
             int index = Random.Range(0, monsterPrefab.Length);
             Vector2 spawnPos = new Vector2(Random.Range(minSpawnPlatformPosX, Mathf.Abs(minSpawnPlatformPosX)), (highestMonsterY + Random.Range(12.5f, 25.5f)));
             Instantiate(monsterPrefab[index], spawnPos, monsterPrefab[index].transform.rotation);
 
+            
+
             highestMonsterY = spawnPos.y;
         }
         
+    }
+
+    private void PowerSpawner(float platDimY)
+    {
+        int index = Random.Range(0, powerPrefabs.Length);
+        powerDimensionY = powerPrefabs[index].GetComponent<CircleCollider2D>().radius;
+        Vector2 spawnPosPower = new Vector2(spawnPos.x, (spawnPos.y + platformDimensionY + powerDimensionY));
+
+        Instantiate(powerPrefabs[index], spawnPosPower, powerPrefabs[index].transform.rotation);
     }
 
 } //class

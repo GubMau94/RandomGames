@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5758328129808415861}
   - component: {fileID: 4506385781194946266}
   - component: {fileID: 1205989305436559002}
-  - component: {fileID: -5691549749556311547}
   - component: {fileID: 4128312058229634340}
   m_Layer: 0
   m_Name: PropellerIdle
@@ -128,18 +127,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.07840574}
   serializedVersion: 2
   m_Radius: 0.19054562
---- !u!114 &-5691549749556311547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5758328129808415862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09ce3d40172cf9d40ab9368e1565a963, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4128312058229634340
 MonoBehaviour:
   m_ObjectHideFlags: 0

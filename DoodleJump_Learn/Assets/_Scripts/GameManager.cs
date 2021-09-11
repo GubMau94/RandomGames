@@ -117,14 +117,16 @@ public class GameManager : MonoBehaviour
             int index = Random.Range(0, monsterPrefab.Length);
             Vector2 spawnPos = new Vector2(Random.Range(minSpawnPlatformPosX, Mathf.Abs(minSpawnPlatformPosX)), (highestMonsterY + Random.Range(12.5f, 25.5f)));
             Instantiate(monsterPrefab[index], spawnPos, monsterPrefab[index].transform.rotation);
-
-            
-
+               
             highestMonsterY = spawnPos.y;
         }
         
     }
 
+    /// <summary>
+    /// Instanzia i poteri solo sulle piattaforme verdi
+    /// </summary>
+    /// <param name="platDimY"></param>
     private void PowerSpawner(float platDimY)
     {
         int index = Random.Range(0, powerPrefabs.Length);

@@ -9,6 +9,7 @@ TagManager:
   - Projectile
   - Monster
   - Power
+  - Hole
   layers:
   - Default
   - TransparentFX

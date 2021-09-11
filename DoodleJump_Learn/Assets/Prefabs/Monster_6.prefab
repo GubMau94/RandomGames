@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8853032023939076610}
   - component: {fileID: 8853032023939076608}
   m_Layer: 0
-  m_Name: Monster6
+  m_Name: Monster_6
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -3582053018325938239, guid: 4464438300d317a4196a2cb1138c1261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

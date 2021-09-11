@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalMovement, highestPosY;
     private bool turnLeft, enableTakePowerActive, powerTrigger, springsActive, jetpackActive, rocketActive, propellerActive;
-    public static bool powerActive;
+    public static bool powerActive, gameOver;
     public static string powerName;
 
     private int jumpCounter;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0.1f, 500f)] private float jumpForce;
     [SerializeField, Range(0.1f, 500f)] private float movementSpeed;
     [SerializeField] private GameObject projectilePrefab, mouth, projectileSpawnPos, propeller, jetpackLeft, jetpackRight, springShoes, rocketRight, rocketLeft;
-    [SerializeField] private AudioClip fireClip, jumpClip, jetpackClip, rocketClip, propellerClip;
+    [SerializeField] private AudioClip fireClip, jumpClip, jetpackClip, rocketClip, propellerClip, gameOverClip;
     [SerializeField] private SpriteRenderer jetpackLeftRenderer, jetpackRightRenderer, rocketLeftRenderer, rocketRightRenderer;
 
     // Start is called before the first frame update
@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
         turnLeft = false;
         powerActive = false;
+        gameOver = false;
         highestPosY = 0;
         jumpCounter = 0;
         startingJumpForce = jumpForce;
@@ -112,8 +113,30 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Monster"))
         {
-            SceneManager.LoadScene(2);
+            gameOver = true;
+            _audioSource.PlayOneShot(gameOverClip);
+            _boxCollider.isTrigger = true;            
         }
+
+        if (collision.gameObject.CompareTag("Hole"))
+        {
+            gameOver = true;
+            _audioSource.PlayOneShot(gameOverClip);
+
+            _rigidbody.bodyType = RigidbodyType2D.Kinematic;
+            if (turnLeft)
+            {
+                _anim.Play("HoleEffect_Left");
+            } else if (!turnLeft)
+            {
+                _anim.Play("HoleEffect_Right");
+            }            
+        }
+    }
+
+    private void GameOver()
+    {
+        SceneManager.LoadScene(2);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -126,7 +149,14 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Power"))
         {
             powerTrigger = true;
-        } 
+        }
+
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            gameOver = true;
+            _audioSource.PlayOneShot(gameOverClip);
+            _boxCollider.isTrigger = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

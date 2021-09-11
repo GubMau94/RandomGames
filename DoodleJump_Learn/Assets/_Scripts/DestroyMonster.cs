@@ -6,7 +6,7 @@ public class DestroyMonster : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Projectile") || collision.CompareTag("KillZone"))
+        if (collision.CompareTag("Projectile"))
         {
             Destroy(gameObject);
         }

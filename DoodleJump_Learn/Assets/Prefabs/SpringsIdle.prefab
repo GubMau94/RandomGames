@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2258853064055528674}
   - component: {fileID: -5111001849884404940}
   - component: {fileID: 7248378673381929716}
-  - component: {fileID: 8836014309875730613}
   - component: {fileID: -3419218416169505346}
   m_Layer: 0
   m_Name: SpringsIdle
@@ -128,18 +127,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.00073321164}
   serializedVersion: 2
   m_Radius: 0.19534515
---- !u!114 &8836014309875730613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2258853064055528701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09ce3d40172cf9d40ab9368e1565a963, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-3419218416169505346
 MonoBehaviour:
   m_ObjectHideFlags: 0

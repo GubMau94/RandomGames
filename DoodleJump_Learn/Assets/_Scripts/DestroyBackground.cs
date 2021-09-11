@@ -7,7 +7,7 @@ public class DestroyBackground : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((Camera.main.transform.position.y - transform.position.y) > 50.0f)
+        if((Camera.main.transform.position.y - transform.position.y) > 200.0f)
         {
             Destroy(gameObject);
         }

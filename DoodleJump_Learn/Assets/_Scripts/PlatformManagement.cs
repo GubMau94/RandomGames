@@ -65,6 +65,9 @@ public class PlatformManagement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gestisce i comportamenti speciali delle varie tipologie ti piattaforme
+    /// </summary>
     private void PlatformSpecialBehaviour()
     {
         switch (PlatformBehaviour)
